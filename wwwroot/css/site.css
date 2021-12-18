@@ -1,0 +1,114 @@
+html {
+    font-family: 'Nanum Myeongjo', serif;
+}
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #F2790F;
+    color: black;
+}
+a {
+    text-decoration: none;
+}
+button {
+    border:0;
+    border-radius: 15px;
+    color:white;
+    padding: 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+textarea {
+    width: 90%;
+    overflow: hidden;
+    resize: none;
+    text-align: left;
+    background-color: transparent;
+}
+input {
+    color: black;
+    user-select: none;  
+    font-size: 16px;
+    background-color: transparent;
+}
+textarea, input {
+    font-family: 'Nanum Myeongjo', serif;
+    border:0;
+    border-bottom: 2px solid black;
+}
+textarea:focus, input:focus {
+    outline: none;
+    border-bottom: 2px solid #F22816;
+}
+.navbar {
+    margin:auto;
+    top: 0;
+    margin-bottom:20px;
+}
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    display: flex;
+    overflow: hidden;
+    background-color: transparent;
+}
+.navbar li {
+    float: left;
+}
+.navbar li a {
+    display: inline;
+    color: white;
+    text-align: center;
+}
+.navbar li button {
+    padding: 14px;
+}
+.navbar li button:hover {
+    background-color: #D93D04;
+}
+
+.btn-warn {
+    background-color: black;
+}
+.btn-warn:hover {
+    background-color: #D93D04;
+}
+.btn-normal {
+    background-color: black;
+}
+.btn-createnew {
+    background-color: black;
+}
+
+.center {
+    text-align: center;
+}
+.editor {
+    background-color: rgba(255, 255, 255, 0.849);
+}
+.edit-container input {
+    text-align: center;
+    width: 30%;
+    margin-top: 10px;
+    font-size: 1.5em; 
+}
+.edit-container textarea{
+    margin-top: 20px;
+    text-align: left;
+    overflow:auto;
+    height: 300px;
+    font-size: 1.3em;
+}
+.container {
+    width: 50%;
+    margin: auto;
+    padding:10px;
+    box-shadow: 10px 10px 0px 0px rgb(255, 187, 123), -10px -10px 0px 0px rgb(255, 152, 34);
+}
+.participants-list {
+    position: fixed;
+    right: 13%;
+    top: 10%;
+}

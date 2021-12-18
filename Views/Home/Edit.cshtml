@@ -1,0 +1,69 @@
+﻿@using SnowyBook.Models
+@model NoteModel
+@{
+	bool? isNew = null;
+	if(ViewData.ContainsKey("isNew"))
+		isNew = (bool)ViewData["isNew"];
+}
+<div class="container">
+	<div class="editor">	
+		@{
+			string name = "New Document";
+			string ext = "md";
+			string content = "Texts ... ";
+			if (isNew != null && isNew == false) {
+				string[]? titleSplited = Model.Title.Split('.');
+				name = titleSplited[0];
+				ext = titleSplited[1];
+				content = Model.Content;
+			} 
+		}
+		<div class="center edit-container">
+			<input id="name" value="@name" /><span style="font-weight:bold;font-size:25px"> . @ext</span>
+			<textarea id="content">@content</textarea>
+		</div>
+		<div style="text-align: center;">
+			<button id="savebtn" class="btn-warn" style="padding:10px;border-radius:10px 10px 0px 0px">Save</button>
+			<script>
+				document.getElementById("savebtn").addEventListener("click",() => {
+					const content = document.getElementById("content").value;
+					const name = document.getElementById("name").value;
+					$.ajax({
+						url: "/Home/Save/"+name,
+						type: "post", 
+						data: {
+							content:content
+						}, success: (data)=>{
+							document.getElementById("changesCount").innerText = data;
+						}
+					});
+				});
+
+				document.getElementById("changesCount").addEventListener("click", () => {
+					//Lock & Pullaway
+					$.ajax({
+						url: "/Home/Pullaway/",
+						type: "get",
+						success: ()=>{
+							alert("Successfully Saved!")
+						}
+					});
+				});
+			</script>
+		</div>
+	</div>
+</div>
+<div class="participants-list">
+	@if(Model != null && isNew != null && isNew == false) {
+		var participantsCount = Model.Participants.Count();
+		if(participantsCount > 0) {
+			<p>Participants</p>
+			<ol>
+				@for (int i = 0; i < participantsCount; i++)
+				{
+					<li>@Model.Participants[i].Id</li>
+				}
+			</ol>
+		}
+	}
+</div>

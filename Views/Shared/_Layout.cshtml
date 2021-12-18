@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/css/site.css">
+    <title>@ViewData["Title"]</title>
+</head>
+
+<body>
+    <header class="navbar">
+        <ul>
+            <li>
+                <a href="/">
+                    <button class="btn-normal" style="border-radius: 0px 0px 0px 15px;">Notebook</button></a>
+            </li>
+            <li>
+                <a href="https://github.com/SnowyPainter/">
+                    <button class="btn-normal" style="border-radius:0px">Snowypainter</button></a>
+            </li>
+            <li>
+                <a href="snowypainter@gmail.com">
+                    <button class="btn-normal" style="border-radius:0px">Email</button></a>
+            </li>
+            <li>
+                <a href="/Home/Edit/"><button class="btn-normal btn-createnew"
+                        style="border-radius: 0px 0px 15px 0px;">New Document</button></a>
+            </li>
+            <li>
+                <a><button id="changesCount" class="btn-normal" style="margin-left: 20px;border-radius:35px;">0</button></a>
+            </li>
+        </ul>
+    </header>
+    <div>
+        @RenderBody()
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    </div>
+</body>
+
+</html>

@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Harbor-DUS\Harbor\Harbor.csproj" />
+  </ItemGroup>
+
 </Project>
