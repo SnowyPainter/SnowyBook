@@ -64,7 +64,7 @@ namespace SnowyBook
             );
             app.MapControllerRoute(
                 name: "edit",
-                pattern: "{controller=Home}/{action=Edit}/{doc?}"
+                pattern: "{controller=Home}/{action=Edit}/{doc?}/{id?}"
             );
             app.MapControllerRoute(
                 name: "save",

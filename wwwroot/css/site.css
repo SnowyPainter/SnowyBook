@@ -101,6 +101,7 @@ textarea:focus, input:focus {
     height: 300px;
     font-size: 1.3em;
 }
+
 .container {
     width: 50%;
     margin: auto;
@@ -111,4 +112,28 @@ textarea:focus, input:focus {
     position: fixed;
     right: 13%;
     top: 10%;
+}
+.changes-container {
+    border: solid 1px black;
+    position: fixed;
+    width: 200px;
+    height:75%;
+    left: 5%;
+    top: 13%;
+}
+.changes-container h2 {
+    text-align: center;
+}
+.changes-container #commitbtn {
+    position: absolute;
+    font-size: 16px;
+    padding:10px;
+    width: 100px;
+    bottom: 0;
+    right:0;
+    border-radius: 10px 0px 0px 0px;
+}
+.changes-container #changes-list {
+    font-size: 14px;
+    color: white;
 }

@@ -18,23 +18,26 @@ namespace SnowyBook.Controllers
             Program.ReviseLog = new DataCargo();
         }
         [HttpPost]
-        public int Save(string doc, [Bind("content")] string content) {
+        public string Save(string doc, [Bind("content")] string content, [Bind("id")] string id) {
             var temp = changes;
+            var changeMsg = "";
             if(currDoc != doc) {
                 Program.ReviseLog.Load(new Data {Content = $"Changed {currDoc} {doc}"});
+                changeMsg += $"[{id}] {currDoc} To {doc}\n";
                 currDoc = doc;
                 changes++;
             }
             if(currContent != content) {
                 Program.ReviseLog.Load(new Data {Content = $"Changed {currContent} {content}"});
+                changeMsg += $"[{id}] Contents {currContent.Length} to {content.Length}\n";
                 currContent = content;
                 changes++;
             }
             if(temp <= changes)
                 System.IO.File.WriteAllText(@$"{Program.DefaultSavePath}/{doc}.md", content);
-            return changes;
+            return changeMsg;
         }
-        public IActionResult Edit(string doc)
+        public IActionResult Edit(string doc, string id)
         {
             string? str = "";
             if (doc == null)
@@ -58,12 +61,9 @@ namespace SnowyBook.Controllers
             note.Content = str.Trim();
             currDoc = note.Title.Split('.')[0];
             currContent = note.Content;
-            // Participants 는 실시간으로 저장됨. 실시간 유입이기 때문이다.
 
-            //Test
-            for (int i = 0; i < 4; i++)
-                note.Participants.Add(new Participant { Id = $"User{i}" });
-
+            note.Participants.Add(new Participant { Id = id });
+            ViewData["me"] = id;
             return View(note);
         }
         private NoteModel? saveToNoteModel(string fullPath)

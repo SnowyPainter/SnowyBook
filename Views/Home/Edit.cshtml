@@ -2,21 +2,22 @@
 @model NoteModel
 @{
 	bool? isNew = null;
-	if(ViewData.ContainsKey("isNew"))
+	if (ViewData.ContainsKey("isNew"))
 		isNew = (bool)ViewData["isNew"];
 }
 <div class="container">
-	<div class="editor">	
+	<div class="editor">
 		@{
-			string name = "New Document";
+			string name = "NewDocument";
 			string ext = "md";
-			string content = "Texts ... ";
-			if (isNew != null && isNew == false) {
+			string content = "";
+			if (isNew != null && isNew == false)
+			{
 				string[]? titleSplited = Model.Title.Split('.');
 				name = titleSplited[0];
 				ext = titleSplited[1];
 				content = Model.Content;
-			} 
+			}
 		}
 		<div class="center edit-container">
 			<input id="name" value="@name" /><span style="font-weight:bold;font-size:25px"> . @ext</span>
@@ -25,27 +26,24 @@
 		<div style="text-align: center;">
 			<button id="savebtn" class="btn-warn" style="padding:10px;border-radius:10px 10px 0px 0px">Save</button>
 			<script>
-				document.getElementById("savebtn").addEventListener("click",() => {
+				document.getElementById("savebtn").addEventListener("click", () => {
 					const content = document.getElementById("content").value;
 					const name = document.getElementById("name").value;
 					$.ajax({
-						url: "/Home/Save/"+name,
-						type: "post", 
+						url: "/Home/Save/" + name,
+						type: "post",
 						data: {
-							content:content
-						}, success: (data)=>{
-							document.getElementById("changesCount").innerText = data;
-						}
-					});
-				});
-
-				document.getElementById("changesCount").addEventListener("click", () => {
-					//Lock & Pullaway
-					$.ajax({
-						url: "/Home/Pullaway/",
-						type: "get",
-						success: ()=>{
-							alert("Successfully Saved!")
+							content: content,
+							id: "@ViewData["me"]"
+						}, success: (changes) => {
+							const list = document.getElementById("changes-list");
+							const splited = changes.split('\n');
+							for (let i = 0; i < splited.length; i++) {
+								if (splited[i] == '') continue
+								let li = document.createElement("li")
+								li.innerText = splited[i]
+								list.appendChild(li)
+							}
 						}
 					});
 				});
@@ -54,9 +52,11 @@
 	</div>
 </div>
 <div class="participants-list">
-	@if(Model != null && isNew != null && isNew == false) {
+	@if (Model != null)
+	{
 		var participantsCount = Model.Participants.Count();
-		if(participantsCount > 0) {
+		if (participantsCount > 0)
+		{
 			<p>Participants</p>
 			<ol>
 				@for (int i = 0; i < participantsCount; i++)
@@ -66,4 +66,23 @@
 			</ol>
 		}
 	}
+</div>
+<div class="changes-container">
+	<h2>Changes log</h2>
+	<ul id="changes-list">
+
+	</ul>
+	<button id="commitbtn" class="btn-warn">Commit</button>
+	<script>
+		document.getElementById("commitbtn").addEventListener("click", () => {
+			//Lock & Pullaway
+			$.ajax({
+				url: "/Home/Pullaway/",
+				type: "get",
+				success: () => {
+					alert("Successfully Committed!");
+				}
+			});
+		});
+	</script>
 </div>
