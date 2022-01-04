@@ -15,10 +15,11 @@ namespace SnowyBook
             var d = new Data { Content = $"{who}:{what}" };
             ReviseLog.Load(d);
         }
-        static void Main()
+        public static void Main()
         {
             var builder = WebApplication.CreateBuilder();
             builder.Services.AddControllersWithViews();
+            builder.Services.AddSignalR();
 
             Localship = new LocalShip(
                 new Dictionary<CargoType, string>() //Hidden folders
@@ -56,7 +57,6 @@ namespace SnowyBook
                 app.UseDeveloperExceptionPage();
             }
             app.UseStaticFiles();
-            app.UseRouting();
 
             app.MapControllerRoute(
                 name: "default",
@@ -74,6 +74,8 @@ namespace SnowyBook
                 name: "pullaway",
                 pattern: "{controller=Home}/{action=Pullaway}/"
             );
+            app.MapHub<Hubs.EditHub>("/msghub");
+
             app.Run();
         }
     }

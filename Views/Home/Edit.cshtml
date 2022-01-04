@@ -5,6 +5,22 @@
 	if (ViewData.ContainsKey("isNew"))
 		isNew = (bool)ViewData["isNew"];
 }
+<!-- <div class="participants-list">
+	@if (Model != null)
+	{
+		var participantsCount = Model.Participants.Count();
+		if (participantsCount > 0)
+		{
+			<p>Participants</p>
+			<ol id="participants-list">
+				@for (int i = 0; i < participantsCount; i++)
+				{
+					<li>@Model.Participants[i].Id</li>
+				}
+			</ol>
+		}
+	}
+</div> -->
 <div class="container">
 	<div class="editor">
 		@{
@@ -22,6 +38,31 @@
 		<div class="center edit-container">
 			<input id="name" value="@name" /><span style="font-weight:bold;font-size:25px"> . @ext</span>
 			<textarea id="content">@content</textarea>
+			<script src="~/js/signalr/dist/browser/signalr.js"></script>
+			<script>
+			let connection = new signalR.HubConnectionBuilder().withUrl("/msghub").build();
+			connection.on("SendContent", (message) => {
+				document.getElementById("content").value = message;
+			});
+			/* connection.on("WhoConnected", (id) => {
+				let list = document.getElementById("participants-list");
+				let li = documnet.createElement("li")
+				li.innerText = id;
+				list.children.appendChild(li)
+				console.log("ff")
+			}) */
+			document.getElementById("content").addEventListener("input", () => {
+				connection.invoke("SendContent", document.getElementById("content").value).catch(function (err) {
+					return console.error(err.toString());
+				});	
+			});
+			connection.start().then(()=>{
+				
+			}).catch(function (err) {
+				return console.error(err.toString());
+			});
+			
+			</script>
 		</div>
 		<div style="text-align: center;">
 			<button id="savebtn" class="btn-warn" style="padding:10px;border-radius:10px 10px 0px 0px">Save</button>
@@ -50,22 +91,6 @@
 			</script>
 		</div>
 	</div>
-</div>
-<div class="participants-list">
-	@if (Model != null)
-	{
-		var participantsCount = Model.Participants.Count();
-		if (participantsCount > 0)
-		{
-			<p>Participants</p>
-			<ol>
-				@for (int i = 0; i < participantsCount; i++)
-				{
-					<li>@Model.Participants[i].Id</li>
-				}
-			</ol>
-		}
-	}
 </div>
 <div class="changes-container">
 	<h2>Changes log</h2>
